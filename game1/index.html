@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Космопочта — игровая миссия PLAYLAB">
+  <title>Космопочта — PLAYLAB</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="../index.html">PLAY<span>LAB</span></a>
+    <a class="home-button" href="../index.html">← На главную</a>
+  </header>
+
+  <main class="game-shell">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Миссия 01</p>
+        <h1>Космопочта</h1>
+        <p>Доставь все 12 посылок на планеты по цвету их адресной бирки.</p>
+      </div>
+      <div class="intro-actions">
+        <button class="secondary-button" id="helpButton" type="button">Как играть?</button>
+        <button class="primary-button" id="startButton" type="button">Начать игру</button>
+      </div>
+    </section>
+
+    <section class="space" id="gameArea" aria-label="Игровое поле">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="space-hud" aria-label="Статистика игры">
+        <div class="space-hud__status"><span aria-hidden="true">🚀</span><strong>Космическая доставка</strong></div>
+        <div class="game-stats">
+          <div class="stat"><span>Счёт</span><strong id="score">0</strong></div>
+          <div class="stat stat--remaining"><span>Осталось</span><strong id="remaining">12</strong></div>
+          <div class="stat stat--timer"><span>Время</span><strong><span id="timer">60</span> сек.</strong></div>
+        </div>
+      </div>
+      <div class="planets">
+        <div class="planet-zone planet-zone--gray" data-planet="gray">
+          <img src="../images/moon.png" alt="Луна">
+          <h2>Луна</h2>
+          <p>Серая почта</p>
+          <span class="delivered-count"><b>0</b> / 4</span>
+        </div>
+        <div class="planet-zone planet-zone--red" data-planet="red">
+          <img src="../images/mars.png" alt="Марс">
+          <h2>Марс</h2>
+          <p>Красная почта</p>
+          <span class="delivered-count"><b>0</b> / 4</span>
+        </div>
+        <div class="planet-zone planet-zone--yellow" data-planet="yellow">
+          <img src="../images/saturn.png" alt="Сатурн">
+          <h2>Сатурн</h2>
+          <p>Жёлтая почта</p>
+          <span class="delivered-count"><b>0</b> / 4</span>
+        </div>
+      </div>
+
+      <div class="cargo-panel">
+        <div class="cargo-heading">
+          <h2>Посылки на орбите</h2>
+        </div>
+        <div class="packages is-locked" id="packages" aria-label="Посылки"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="helpModal" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <section class="modal__card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <button class="modal__close" type="button" data-close-modal aria-label="Закрыть">×</button>
+      <p class="eyebrow">Инструкция</p>
+      <h2 id="helpTitle">Как играть?</h2>
+      <ol>
+        <li>Нажми «Начать игру» — включится таймер на 60 секунд.</li>
+        <li>Смотри на цвет адресной бирки каждой посылки.</li>
+        <li>Зажми посылку мышкой и перетащи её на планету такого же цвета.</li>
+        <li>Правильная доставка даёт <strong>+10 очков</strong>, ошибка отнимает <strong>5 очков</strong>.</li>
+      </ol>
+      <p class="tip">Победа — все 12 посылок доставлены до окончания времени!</p>
+      <button class="primary-button" type="button" data-close-modal>Понятно</button>
+    </section>
+  </div>
+
+  <div class="modal" id="resultModal" hidden>
+    <div class="modal__backdrop"></div>
+    <section class="modal__card modal__card--result" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+      <div class="result-icon" id="resultIcon" aria-hidden="true">🚀</div>
+      <p class="eyebrow">Миссия завершена</p>
+      <h2 id="resultTitle">Отличная работа!</h2>
+      <p id="resultMessage"></p>
+      <div class="result-score"><span>Твой результат</span><strong><span id="finalScore">0</span> очков</strong></div>
+      <button class="primary-button" id="restartButton" type="button">Играть снова</button>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <audio id="correctSound" src="../sounds/correct.mp3" preload="auto"></audio>
+  <audio id="wrongSound" src="../sounds/wrong.mp3" preload="auto"></audio>
+  <audio id="winSound" src="../sounds/win.mp3" preload="auto"></audio>
+  <audio id="clickSound" src="../sounds/click.mp3" preload="auto"></audio>
+  <script src="game.js"></script>
+</body>
+</html>

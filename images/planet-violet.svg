@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 190" role="img" aria-labelledby="title">
+  <title id="title">Фиолетовая планета Аметист</title>
+  <defs>
+    <radialGradient id="p" cx="35%" cy="28%">
+      <stop offset="0" stop-color="#c7baff"/>
+      <stop offset=".58" stop-color="#8066ec"/>
+      <stop offset="1" stop-color="#4a2eb4"/>
+    </radialGradient>
+    <linearGradient id="r" x1="0" x2="1">
+      <stop stop-color="#dcd5ff"/>
+      <stop offset="1" stop-color="#8c74ed"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="120" cy="106" rx="105" ry="24" fill="none" stroke="url(#r)" stroke-width="13" transform="rotate(-12 120 106)"/>
+  <circle cx="120" cy="92" r="65" fill="url(#p)"/>
+  <path d="M72 67c28 12 66 11 94-3M62 98c35 15 78 14 115-2M78 126c23 8 51 9 78 0" fill="none" stroke="#d3c9ff" stroke-width="7" stroke-linecap="round" opacity=".38"/>
+  <circle cx="97" cy="61" r="8" fill="#ebE7ff" opacity=".55"/>
+</svg>

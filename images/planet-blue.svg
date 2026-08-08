@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 190" role="img" aria-labelledby="title">
+  <title id="title">Голубая планета Океания</title>
+  <defs>
+    <radialGradient id="p" cx="34%" cy="26%">
+      <stop offset="0" stop-color="#bcefff"/>
+      <stop offset=".6" stop-color="#36b5e5"/>
+      <stop offset="1" stop-color="#1477bd"/>
+    </radialGradient>
+  </defs>
+  <circle cx="120" cy="94" r="68" fill="url(#p)"/>
+  <path d="M56 80c20-8 33 4 48 0s20-17 38-12 23 22 41 17M56 110c22-11 34 6 55 3s28-16 48-8 14 17 26 17" fill="none" stroke="#d7f7ff" stroke-width="9" stroke-linecap="round" opacity=".72"/>
+  <path d="M91 34c11 10 10 18 25 21s24-5 32 3" fill="none" stroke="#f3fdff" stroke-width="7" stroke-linecap="round" opacity=".5"/>
+  <ellipse cx="120" cy="164" rx="58" ry="7" fill="#173d72" opacity=".1"/>
+</svg>

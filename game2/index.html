@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Маршрут Ботика — логическая игра PLAYLAB">
+  <title>Маршрут Ботика — PLAYLAB</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="../index.html">PLAY<span>LAB</span></a>
+    <a class="home-button" href="../index.html">← На главную</a>
+  </header>
+
+  <main class="game-shell">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Миссия 02</p>
+        <h1>Маршрут Ботика</h1>
+        <p id="levelDescription">Собери батарейку и доберись до лаборатории.</p>
+      </div>
+      <button class="secondary-button" id="helpButton" type="button">Как играть?</button>
+    </section>
+
+    <section class="game-layout">
+      <div class="board-panel">
+        <div class="board-heading" aria-label="Состояние уровня">
+          <div class="route-status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <strong id="statusText">Составь маршрут</strong>
+          </div>
+          <div class="board-stats">
+            <div class="board-stat board-stat--level"><span>Уровень</span><strong><span id="levelNumber">1</span> / 3</strong></div>
+            <div class="board-stat board-stat--battery"><span>Батарейки</span><strong><span id="batteryCount">0</span> / <span id="batteryTotal">1</span></strong></div>
+          </div>
+        </div>
+        <div class="board" id="board" aria-label="Игровое поле"></div>
+      </div>
+
+      <aside class="control-panel">
+        <div class="control-heading">
+          <p class="eyebrow">Программа робота</p>
+          <h2>Команды</h2>
+          <p>Добавляй шаги, затем запусти маршрут.</p>
+        </div>
+
+        <div class="direction-buttons" aria-label="Добавить команду">
+          <button class="direction direction--up" type="button" data-command="up" aria-label="Добавить движение вверх">↑</button>
+          <button class="direction direction--left" type="button" data-command="left" aria-label="Добавить движение влево">←</button>
+          <button class="direction direction--down" type="button" data-command="down" aria-label="Добавить движение вниз">↓</button>
+          <button class="direction direction--right" type="button" data-command="right" aria-label="Добавить движение вправо">→</button>
+        </div>
+
+        <div class="queue-wrap">
+          <div class="queue-label">
+            <span>Очередь команд</span>
+            <strong id="commandCount">0</strong>
+          </div>
+          <div class="command-queue" id="commandQueue" aria-live="polite">
+            <p class="queue-empty">Здесь появятся команды</p>
+          </div>
+        </div>
+
+        <button class="primary-button primary-button--run" id="runButton" type="button">▶ Запустить</button>
+        <div class="utility-buttons">
+          <button class="text-button" id="clearButton" type="button">Очистить команды</button>
+          <button class="text-button" id="resetButton" type="button">Начать уровень заново</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <div class="modal" id="helpModal" hidden>
+    <div class="modal__backdrop" data-close-help></div>
+    <section class="modal__card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <button class="modal__close" type="button" data-close-help aria-label="Закрыть">×</button>
+      <p class="eyebrow">Инструкция</p>
+      <h2 id="helpTitle">Как играть?</h2>
+      <ol>
+        <li>Кнопками <strong>↑ ↓ ← →</strong> составь очередь команд.</li>
+        <li>Нажми <strong>«Запустить»</strong>, и Ботик выполнит шаги по порядку.</li>
+        <li>Собери все батарейки, избегая камней и границ поля.</li>
+        <li>Только после этого приведи Ботика в лабораторию.</li>
+      </ol>
+      <p class="tip">Если маршрут не удался, очисти команды или начни уровень заново.</p>
+      <button class="primary-button" type="button" data-close-help>Понятно</button>
+    </section>
+  </div>
+
+  <div class="modal" id="levelModal" hidden>
+    <div class="modal__backdrop"></div>
+    <section class="modal__card modal__card--result" role="dialog" aria-modal="true" aria-labelledby="levelResultTitle">
+      <div class="result-icon" aria-hidden="true">🔋</div>
+      <p class="eyebrow">Маршрут выполнен</p>
+      <h2 id="levelResultTitle">Уровень пройден!</h2>
+      <p id="levelResultText"></p>
+      <button class="primary-button" id="nextLevelButton" type="button">Следующий уровень →</button>
+    </section>
+  </div>
+
+  <div class="modal" id="victoryModal" hidden>
+    <div class="modal__backdrop"></div>
+    <section class="modal__card modal__card--victory" role="dialog" aria-modal="true" aria-labelledby="victoryTitle">
+      <div class="victory-stars" aria-hidden="true">✦ ⭐ ✦</div>
+      <img src="../images/robot.png" alt="Ботик празднует победу">
+      <p class="eyebrow">Большая победа</p>
+      <h2 id="victoryTitle">Все маршруты пройдены!</h2>
+      <p>Ты собрал все батарейки и помог Ботику добраться до лаборатории на каждом уровне.</p>
+      <button class="primary-button" id="replayButton" type="button">Пройти ещё раз</button>
+      <a class="victory-home" href="../index.html">На главную</a>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+  <audio id="moveSound" src="../sounds/move.mp3" preload="auto"></audio>
+  <audio id="collectSound" src="../sounds/collect.mp3" preload="auto"></audio>
+  <audio id="wrongSound" src="../sounds/wrong.mp3" preload="auto"></audio>
+  <audio id="winSound" src="../sounds/win.mp3" preload="auto"></audio>
+  <audio id="clickSound" src="../sounds/click.mp3" preload="auto"></audio>
+  <script src="game.js"></script>
+</body>
+</html>

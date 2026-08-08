@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Спаси риф — подводная аркада PLAYLAB">
+  <title>Спаси риф — PLAYLAB</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="../index.html">PLAY<span>LAB</span></a>
+    <a class="home-button" href="../index.html">← На главную</a>
+  </header>
+
+  <main class="game-shell">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Миссия 03</p>
+        <h1>Спаси риф</h1>
+        <p>Собери 15 предметов мусора и не тревожь морских жителей.</p>
+      </div>
+      <div class="intro-actions">
+        <button class="secondary-button" id="helpButton" type="button">Как играть?</button>
+        <button class="primary-button" id="startButton" type="button">Начать игру</button>
+      </div>
+    </section>
+
+    <section class="ocean-panel">
+      <div class="ocean-status">
+        <div class="mission-status"><span class="status-dot" aria-hidden="true"></span><strong id="statusText">Нажми «Начать игру»</strong></div>
+        <div class="game-stats" aria-label="Статистика игры">
+          <div class="stat"><span>Очки</span><strong id="score">0</strong></div>
+          <div class="stat stat--trash"><span>Мусор</span><strong><span id="trashCount">0</span> / 15</strong></div>
+          <div class="stat stat--time"><span>Время</span><strong><span id="timeLeft">60</span> сек.</strong></div>
+          <div class="stat stat--lives"><span>Жизни</span><strong id="lives" aria-label="3 жизни">♥ ♥ ♥</strong></div>
+        </div>
+        <p class="key-help"><kbd>A</kbd> <kbd>←</kbd> Влево&nbsp; Вправо <kbd>→</kbd> <kbd>D</kbd></p>
+      </div>
+
+      <div class="ocean" id="ocean" aria-label="Игровое поле">
+        <div class="light-rays" aria-hidden="true"></div>
+        <div class="bubble bubble--one" aria-hidden="true"></div>
+        <div class="bubble bubble--two" aria-hidden="true"></div>
+        <div class="bubble bubble--three" aria-hidden="true"></div>
+        <div class="edge-decor edge-decor--left" aria-hidden="true">
+          <span class="seaweed seaweed--tall"></span>
+          <span class="seaweed seaweed--medium"></span>
+          <span class="seaweed seaweed--short"></span>
+          <span class="coral">♒</span>
+          <span class="sea-rock sea-rock--one"></span>
+          <span class="sea-rock sea-rock--two"></span>
+          <span class="decor-bubble decor-bubble--one"></span>
+          <span class="decor-bubble decor-bubble--two"></span>
+        </div>
+        <div class="edge-decor edge-decor--right" aria-hidden="true">
+          <span class="seaweed seaweed--tall"></span>
+          <span class="seaweed seaweed--medium"></span>
+          <span class="seaweed seaweed--short"></span>
+          <span class="coral">♒</span>
+          <span class="sea-rock sea-rock--one"></span>
+          <span class="sea-rock sea-rock--two"></span>
+          <span class="decor-bubble decor-bubble--one"></span>
+          <span class="decor-bubble decor-bubble--two"></span>
+        </div>
+        <div class="objects-layer" id="objectsLayer"></div>
+        <img class="submarine" id="submarine" src="../images/submarine.png" alt="Подводная лодка игрока">
+        <div class="start-curtain" id="startCurtain">
+          <img src="../images/submarine.png" alt="">
+          <h2>Лодка готова к погружению!</h2>
+          <p>Движение начнётся только после запуска игры.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="helpModal" hidden>
+    <div class="modal__backdrop" data-close-help></div>
+    <section class="modal__card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <button class="modal__close" type="button" data-close-help aria-label="Закрыть">×</button>
+      <p class="eyebrow">Инструкция</p>
+      <h2 id="helpTitle">Как играть?</h2>
+      <ol>
+        <li>Нажми <strong>«Начать игру»</strong>.</li>
+        <li>Двигай лодку клавишами <strong>← →</strong> или <strong>A D</strong>.</li>
+        <li>Лови бутылки, банки и пакеты — каждый предмет даёт <strong>+10 очков</strong>.</li>
+        <li>Не задевай рыб, черепах и медуз: столкновение отнимает одну жизнь.</li>
+      </ol>
+      <p class="tip">Собери 15 предметов мусора за 60 секунд, сохранив хотя бы одну жизнь.</p>
+      <button class="primary-button" type="button" data-close-help>Понятно</button>
+    </section>
+  </div>
+
+  <div class="modal" id="resultModal" hidden>
+    <div class="modal__backdrop"></div>
+    <section class="modal__card modal__card--result" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+      <div class="result-icon" id="resultIcon" aria-hidden="true">🌊</div>
+      <p class="eyebrow" id="resultEyebrow">Миссия завершена</p>
+      <h2 id="resultTitle">Риф спасён!</h2>
+      <p id="resultMessage"></p>
+      <div class="result-stats">
+        <div><span>Очки</span><strong id="finalScore">0</strong></div>
+        <div><span>Собрано</span><strong><span id="finalTrash">0</span> / 15</strong></div>
+      </div>
+      <button class="primary-button" id="replayButton" type="button">Играть снова</button>
+      <a class="result-home" href="../index.html">На главную</a>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+  <audio id="clickSound" src="../sounds/click.mp3" preload="auto"></audio>
+  <audio id="collectSound" src="../sounds/collect.mp3" preload="auto"></audio>
+  <audio id="wrongSound" src="../sounds/wrong.mp3" preload="auto"></audio>
+  <audio id="winSound" src="../sounds/win.mp3" preload="auto"></audio>
+  <script src="game.js"></script>
+</body>
+</html>
